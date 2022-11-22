@@ -16,10 +16,6 @@ public class Intro_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-//        ImageView intro_logo = findViewById(R.id.intro_logo);
-//        ObjectAnimator animation = ObjectAnimator.ofFloat(intro_logo, "translationX", 1100f);
-//        animation.setDuration(2000);
-//        animation.start();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
