@@ -41,6 +41,19 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
+        Button go_Map_activity = findViewById(R.id.go_Map_activity);
+        go_Map_activity.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              Intent intent = new Intent(MainActivity.this, MapActivity.class);
+              startActivity(intent);
+
+              finish();
+          }
+      }
+        );
+
+
     }
 
 

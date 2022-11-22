@@ -53,12 +53,10 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView3"
-        app:layout_constraintEnd_toStartOf="@+id/go_Check_Card"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/go_Check_Card" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/go_Check_Card"
+        android:id="@+id/go_Map_activity"
         android:layout_width="121dp"
         android:layout_height="90dp"
         android:layout_marginStart="36dp"
@@ -71,8 +69,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toEndOf="@+id/go_ID_Card"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -84,7 +84,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/go_Check_Card"
-        app:srcCompat="@drawable/delivery_icon3" />
+        app:srcCompat="@drawable/delivery_icon3"
+        android:contentDescription="TODO" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
