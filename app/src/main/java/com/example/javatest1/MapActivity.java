@@ -64,7 +64,6 @@ import okhttp3.ResponseBody;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
-
     private static NaverMap naverMap;  // 네이버 지도 객체 생성
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;   // FusedLocationSource 권한 요청 코드
     private FusedLocationSource locationSource; // FusedLocationSource 객체 생성
@@ -73,8 +72,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Manifest.permission.ACCESS_FINE_LOCATION,   // GPS와 네트워크를 이용하여 단말기 위치 식별
             Manifest.permission.ACCESS_COARSE_LOCATION // 네트워크를 이용하여 단말기 위치 식별
     };
-
-
 
 
     // Map 상태
@@ -103,6 +100,35 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         // 사용자 gps 권한 설정
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+
+
+//        new Thread(new Runnable() {
+//        @Override
+//        public void run() {
+//        runOnUiThread(new Runnable() {
+//        @Override
+//        public void run() {
+//            Space("SPACE", 37.550541, 127.075484);
+//        }
+//        });
+//        }
+//        }).start();
+
+
+
+
+
+        // 운행 종료 버튼
+        Button btn_map_end = findViewById(R.id.btn_map_end);
+        btn_map_end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapActivity.this, MainActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
 
     }
 
@@ -158,4 +184,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //            Log.d("MapActivity", "GPS Tracking ...");
 //        }
 //    }
-    }
+
+
+//private static void Space(String ID, double latitude, double longitude) {
+//    Log.d("Check", "Latitude: " + latitude + " Longitude: " + longitude);  // 주차장 위치
+//    // 주차장 마커
+//    if(ID.equals("SPACE")){
+//        Marker ParkingSpaceMarker = new Marker();
+//        OverlayImage image = OverlayImage.fromResource(R.drawable.intro_icon);
+//        ParkingSpaceMarker.setPosition(new LatLng(latitude, longitude));  // 새로운 주차장 위치 설정
+//        ParkingSpaceMarker.setIcon(image);    // 주차장 마커 이미지
+//        ParkingSpaceMarker.setWidth(80);
+//        ParkingSpaceMarker.setHeight(80);
+//        ParkingSpaceMarker.setMap(naverMap);  // 지도에 마커 띄움
+//        Log.d("Check", "Space Marker: " + latitude + " " + longitude);
+//    }
+//    }
+//
+//}
