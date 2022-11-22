@@ -115,9 +115,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //        }).start();
 
 
-
-
-
         // 운행 종료 버튼
         Button btn_map_end = findViewById(R.id.btn_map_end);
         btn_map_end.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +155,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-
+}
 //    @Override
 //    public void onBackPressed(){
 //        Intent intent =new Intent(Intent.ACTION_MAIN);
