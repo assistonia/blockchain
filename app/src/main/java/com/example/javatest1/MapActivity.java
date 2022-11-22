@@ -63,6 +63,8 @@ import okhttp3.ResponseBody;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+
+
     private static NaverMap naverMap;  // 네이버 지도 객체 생성
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;   // FusedLocationSource 권한 요청 코드
     private FusedLocationSource locationSource; // FusedLocationSource 객체 생성
@@ -71,6 +73,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Manifest.permission.ACCESS_FINE_LOCATION,   // GPS와 네트워크를 이용하여 단말기 위치 식별
             Manifest.permission.ACCESS_COARSE_LOCATION // 네트워크를 이용하여 단말기 위치 식별
     };
+
+
+
 
     // Map 상태
     boolean map_status = true;
@@ -88,9 +93,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
-
-
         // 네이버 지도 불러움
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map_navermap);
@@ -128,6 +130,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
+
+
+//    @Override
+//    public void onBackPressed(){
+//        Intent intent =new Intent(Intent.ACTION_MAIN);
+//        intent.addCategory(Intent.CATEGORY_HOME);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+//    }
 
 
     //  초기 설정 ***********************************************************************************

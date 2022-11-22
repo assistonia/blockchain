@@ -12,19 +12,6 @@
         android:layout_height="match_parent"
         android:name="com.naver.maps.map.MapFragment" />
 
-    <!--    <android.widget.Button-->
-    <!--        android:id="@+id/btn_map_end"-->
-    <!--        android:layout_width="280dp"-->
-    <!--        android:layout_height="48dp"-->
-    <!--        android:layout_marginStart="52dp"-->
-    <!--        android:layout_marginTop="620dp"-->
-    <!--        android:background="@drawable/stroke"-->
-    <!--        android:text="End Ride"-->
-    <!--        android:textColor="#000000"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <TextView
         android:id="@+id/map_title"
@@ -70,7 +57,7 @@
         android:textStyle="bold"
         android:gravity="center_horizontal"
 
-        android:text="   your item is delivering ...   "
+        android:text="   your item is delibering ...   "
         android:textSize="20sp"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"

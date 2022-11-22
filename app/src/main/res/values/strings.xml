@@ -4,4 +4,5 @@
     <string name="intro_logo">intro_logo</string>
     <string name="todo">TODO</string>
     <string name="go_mapactivity" />
+    <string name="map_to_main" />
 </resources>
