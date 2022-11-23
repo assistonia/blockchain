@@ -20,7 +20,7 @@
         android:layout_marginTop="15dp"
 
         android:gravity="center_horizontal"
-        android:text="Kick_Off"
+        android:text="Find your item"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
         android:textStyle="bold"
         android:gravity="center_horizontal"
 
-        android:text="   your item is delibering ...   "
+        android:text="   your item is delivering ...   "
         android:textSize="20sp"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
