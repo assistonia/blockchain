@@ -9,22 +9,41 @@
     <Button
         android:id="@+id/go_main_ID"
         android:layout_width="125dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="117dp"
         android:text="메인화면으로"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="4dp"
+        tools:layout_editor_absoluteY="610dp" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="230dp"
-        android:layout_height="202dp"
-        android:gravity="center"
-        android:text="배송 시작"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="139dp"
+        android:layout_height="117dp"
+        app:srcCompat="@drawable/dron_icon2"
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="88dp" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="135dp"
+        android:layout_height="113dp"
+        app:srcCompat="@drawable/dron_icon2"
+        tools:layout_editor_absoluteX="230dp"
+        tools:layout_editor_absoluteY="326dp" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="139dp"
+        android:layout_height="114dp"
+        app:srcCompat="@drawable/drone_icon"
+        tools:layout_editor_absoluteX="44dp"
+        tools:layout_editor_absoluteY="326dp" />
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="142dp"
+        android:layout_height="115dp"
+        app:srcCompat="@drawable/drone_icon"
+        tools:layout_editor_absoluteX="226dp"
+        tools:layout_editor_absoluteY="87dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
