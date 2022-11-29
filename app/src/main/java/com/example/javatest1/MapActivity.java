@@ -95,13 +95,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
     private static void showSpace( double latitude, double longitude) {
 
-        Marker ParkingSpaceMarker = new Marker();
+        Marker SpaceMarker = new Marker();
         OverlayImage image = OverlayImage.fromResource(R.drawable.ic_baseline_place_24);
-        ParkingSpaceMarker.setPosition(new LatLng(latitude, longitude));  // 새로운 주차장 위치 설정
-        ParkingSpaceMarker.setIcon(image);    // 주차장 마커 이미지
-        ParkingSpaceMarker.setWidth(80);
-        ParkingSpaceMarker.setHeight(80);
-        ParkingSpaceMarker.setMap(naverMap);  // 지도에 마커 띄움
+        SpaceMarker.setPosition(new LatLng(latitude, longitude));
+        SpaceMarker.setIcon(image);
+        SpaceMarker.setWidth(80);
+        SpaceMarker.setHeight(80);
+        SpaceMarker.setMap(naverMap);  // 지도에 마커 띄움
         Log.d("ParkingCheck", "New Parking Space Marker: " + latitude + " " + longitude);
         }
 
