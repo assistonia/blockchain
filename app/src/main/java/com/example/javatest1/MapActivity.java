@@ -7,59 +7,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.naver.maps.geometry.LatLng;
-import com.naver.maps.map.CameraAnimation;
-import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
-import com.naver.maps.map.overlay.CircleOverlay;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
-import com.naver.maps.map.overlay.PathOverlay;
 import com.naver.maps.map.util.FusedLocationSource;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import com.naver.maps.map.util.MarkerIcons;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -83,13 +48,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String login_id;
     String user_data;
 
-
     // *********************************************************************************************
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
         // 네이버 지도 불러움
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map_navermap);
@@ -101,33 +66,50 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // 사용자 gps 권한 설정
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                        showSpace(37.552158, 127.073335);
+            }
+        }).start();
 
 //        new Thread(new Runnable() {
-//        @Override
-//        public void run() {
-//        runOnUiThread(new Runnable() {
-//        @Override
-//        public void run() {
-//            Space("SPACE", 37.550541, 127.075484);
-//        }
-//        });
-//        }
+//            @Override
+//            public void run() {
+//                Marker marker = new Marker();
+//                marker.setPosition(new LatLng(37.552158, 127.073335));
+//                marker.setMap(naverMap);
+//                marker.setCaptionText("Test");
+//                marker.setIcon(MarkerIcons.BLACK);
+//            }
 //        }).start();
 
 
-        // 운행 종료 버튼
-        Button btn_map_end = findViewById(R.id.btn_map_end);
-        btn_map_end.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MapActivity.this, MainActivity.class);
-                startActivity(intent);
-
-                finish();
-            }
-        });
+// 운행 종료 버튼
+//        Button btn_map_end = findViewById(R.id.btn_map_end);
+//        btn_map_end.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MapActivity.this, MainActivity.class);
+//                startActivity(intent);
+//
+//                finish();
+//            }
+//        });
 
     }
+    private static void showSpace( double latitude, double longitude) {
+
+        Marker ParkingSpaceMarker = new Marker();
+        OverlayImage image = OverlayImage.fromResource(R.drawable.ic_baseline_place_24);
+        ParkingSpaceMarker.setPosition(new LatLng(latitude, longitude));  // 새로운 주차장 위치 설정
+        ParkingSpaceMarker.setIcon(image);    // 주차장 마커 이미지
+        ParkingSpaceMarker.setWidth(80);
+        ParkingSpaceMarker.setHeight(80);
+        ParkingSpaceMarker.setMap(naverMap);  // 지도에 마커 띄움
+        Log.d("ParkingCheck", "New Parking Space Marker: " + latitude + " " + longitude);
+        }
+
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
@@ -140,6 +122,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         naverMap.addOnLocationChangeListener(location ->
                 Log.d("MapActivity", location.getLatitude() + ", " + location.getLongitude()));  // 현재 위치
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -155,7 +138,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
+
+//    private void setMark(Marker marker, double lat, double lng, int resourceID)
+//    {
+//        //원근감 표시
+//        marker.setIconPerspectiveEnabled(true);
+//        //아이콘 지정
+//        marker.setIcon(OverlayImage.fromResource(resourceID));
+//        //마커의 투명도
+//        marker.setAlpha(0.8f);
+//        //마커 위치
+//        marker.setPosition(new LatLng(lat, lng));
+//        //마커 표시
+//        marker.setMap(naverMap);
+//    }
+
 }
+
 //    @Override
 //    public void onBackPressed(){
 //        Intent intent =new Intent(Intent.ACTION_MAIN);
@@ -169,7 +168,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 //    // GPS 데이터를 이용하여 맵에 경로 나타내는 함수
 //    private void showKickBoardPath(String ID, double latitude, double longitude) {
-//        Log.d("MapActivity", "ID: " + ID + " Latitude: " + latitude + " Longitude: " + longitude);  // 현재 킥보드 위치
+//        Log.d("MapActivity", "ID: " + ID + " Latitude: " + latitude + " Longitude: " + longitude);  // 현재 위치
 //        if (ID.equals(gps_kickID)) {
 //            // 경로 추가
 //            coords.add(new LatLng(latitude, longitude));
@@ -184,12 +183,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
 //private static void Space(String ID, double latitude, double longitude) {
-//    Log.d("Check", "Latitude: " + latitude + " Longitude: " + longitude);  // 주차장 위치
-//    // 주차장 마커
+//    Log.d("Check", "Latitude: " + latitude + " Longitude: " + longitude);  //  위치
+//    //  마커
 //    if(ID.equals("SPACE")){
 //        Marker ParkingSpaceMarker = new Marker();
 //        OverlayImage image = OverlayImage.fromResource(R.drawable.intro_icon);
-//        ParkingSpaceMarker.setPosition(new LatLng(latitude, longitude));  // 새로운 주차장 위치 설정
+//        ParkingSpaceMarker.setPosition(new LatLng(latitude, longitude));  // 새로운  위치 설정
 //        ParkingSpaceMarker.setIcon(image);    // 주차장 마커 이미지
 //        ParkingSpaceMarker.setWidth(80);
 //        ParkingSpaceMarker.setHeight(80);
@@ -199,3 +198,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //    }
 //
 //}
+

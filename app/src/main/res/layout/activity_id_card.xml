@@ -7,18 +7,18 @@
     tools:context=".ID_Card">
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/dron1"
         android:layout_width="0dp"
         android:layout_height="59dp"
         android:layout_marginEnd="44dp"
         android:layout_marginBottom="2dp"
-        android:text="[1] 배송가능"
+        android:backgroundTint="#FBCFCC"
+        android:gravity="center"
+        android:text="@string/dron1"
         android:textColor="@color/black"
         android:textSize="18sp"
-        android:gravity="center"
-        android:backgroundTint="#FBCFCC"
         app:layout_constraintBottom_toTopOf="@+id/imageView11"
-        app:layout_constraintEnd_toStartOf="@+id/button6"
+        app:layout_constraintEnd_toStartOf="@+id/dron2"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -38,7 +38,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/dron3"
         android:layout_width="165dp"
         android:layout_height="56dp"
 
@@ -46,29 +46,29 @@
         android:layout_marginBottom="1dp"
         android:backgroundTint="#B6C0F4"
         android:gravity="center"
-        android:text="[3] 배송불가"
+        android:text="@string/dron3"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView12"
-        app:layout_constraintEnd_toStartOf="@+id/button10"
+        app:layout_constraintEnd_toStartOf="@+id/dron4"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/imageView11" />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/dron4"
         android:layout_width="161dp"
         android:layout_height="58dp"
 
         android:layout_marginTop="4dp"
-        android:text="[4] 배송가능"
+        android:backgroundTint="#BFF6C1"
+        android:gravity="center"
+        android:text="@string/dron4"
         android:textColor="@color/black"
         android:textSize="18sp"
-        android:gravity="center"
-        android:backgroundTint="#BFF6C1"
-        app:layout_constraintEnd_toEndOf="@+id/button6"
+        app:layout_constraintEnd_toEndOf="@+id/dron2"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/button6"
-        app:layout_constraintTop_toTopOf="@+id/button8" />
+        app:layout_constraintStart_toStartOf="@+id/dron2"
+        app:layout_constraintTop_toTopOf="@+id/dron3" />
 
     <ImageView
         android:id="@+id/imageView13"
@@ -86,7 +86,7 @@
         android:layout_marginTop="254dp"
         android:layout_marginEnd="19dp"
         android:layout_marginBottom="29dp"
-        app:layout_constraintBottom_toTopOf="@+id/button10"
+        app:layout_constraintBottom_toTopOf="@+id/dron4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/imageView11"
@@ -95,16 +95,16 @@
         app:srcCompat="@drawable/drone_icon" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/dron2"
         android:layout_width="161dp"
         android:layout_height="58dp"
         android:backgroundTint="#E6B3EF"
         android:gravity="center"
-        android:text="[2] 배송불가"
+        android:text="@string/dorn2"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/button9" />
+        app:layout_constraintTop_toTopOf="@+id/dron1" />
 
     <ImageView
         android:id="@+id/imageView11"
@@ -113,10 +113,10 @@
         android:layout_marginStart="35dp"
         android:layout_marginEnd="39dp"
         android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/button8"
-        app:layout_constraintEnd_toStartOf="@+id/button10"
+        app:layout_constraintBottom_toTopOf="@+id/dron3"
+        app:layout_constraintEnd_toStartOf="@+id/dron4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button9"
+        app:layout_constraintTop_toBottomOf="@+id/dron1"
         app:srcCompat="@drawable/dron_icon2" />
 
 
@@ -131,7 +131,7 @@
         app:layout_constraintEnd_toStartOf="@+id/imageView13"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button8"
+        app:layout_constraintTop_toBottomOf="@+id/dron3"
         app:srcCompat="@drawable/drone_icon" />
 
     <TextView
@@ -146,7 +146,7 @@
         android:text="배송을 시작하려면\n버튼을 CLICK 하세요 :)"
         android:textColor="#3E3C3C"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/button9"
+        app:layout_constraintBottom_toTopOf="@+id/dron1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.833"
         app:layout_constraintStart_toStartOf="parent"
