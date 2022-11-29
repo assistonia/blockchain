@@ -66,12 +66,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // 사용자 gps 권한 설정
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                        showSpace(37.552158, 127.073335);
-            }
-        }).start();
+
 
 //        new Thread(new Runnable() {
 //            @Override
@@ -121,6 +116,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE);
         naverMap.addOnLocationChangeListener(location ->
                 Log.d("MapActivity", location.getLatitude() + ", " + location.getLongitude()));  // 현재 위치
+
+//        마커 위치 찍어주기 테스트용임
+        showSpace(37.552158, 127.073335);
+
     }
 
 
