@@ -55,7 +55,7 @@ public class ID_Card extends AppCompatActivity {
         Dron1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(),formatedNow+" 드론 배송 시작!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),formatedNow+" [1]번드론 배송 시작!", Toast.LENGTH_SHORT).show();
         }
         });
 
@@ -83,7 +83,7 @@ public class ID_Card extends AppCompatActivity {
         Dron4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),formatedNow+" 드론 배송 시작!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),formatedNow+" [4]번드론 배송 시작!", Toast.LENGTH_SHORT).show();
             }
         });
     }

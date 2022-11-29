@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
@@ -23,8 +24,10 @@ import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
+import com.naver.maps.map.overlay.PathOverlay;
 import com.naver.maps.map.util.FusedLocationSource;
-import com.naver.maps.map.util.MarkerIcons;
+
+import java.util.Arrays;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -48,6 +51,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String login_id;
     String user_data;
 
+    Double drone_latitude;
+    Double drone_longitude;
+
+
     // *********************************************************************************************
 
     @Override
@@ -66,61 +73,98 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // 사용자 gps 권한 설정
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
+        Button go_main_map = findViewById(R.id.btn_map_end);
+        go_main_map.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View view) {
+                                           Intent intent = new Intent(MapActivity.this, MainActivity.class);
+                                           startActivity(intent);
+
+                                           finish();
+                                       }
+                                   }
+        );
 
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Marker marker = new Marker();
-//                marker.setPosition(new LatLng(37.552158, 127.073335));
-//                marker.setMap(naverMap);
-//                marker.setCaptionText("Test");
-//                marker.setIcon(MarkerIcons.BLACK);
-//            }
-//        }).start();
 
-
-// 운행 종료 버튼
-//        Button btn_map_end = findViewById(R.id.btn_map_end);
-//        btn_map_end.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MapActivity.this, MainActivity.class);
-//                startActivity(intent);
-//
-//                finish();
-//            }
-//        });
 
     }
-    private static void showSpace( double latitude, double longitude) {
-
-        Marker SpaceMarker = new Marker();
-        OverlayImage image = OverlayImage.fromResource(R.drawable.ic_baseline_place_24);
-        SpaceMarker.setPosition(new LatLng(latitude, longitude));
-        SpaceMarker.setIcon(image);
-        SpaceMarker.setWidth(80);
-        SpaceMarker.setHeight(80);
-        SpaceMarker.setMap(naverMap);  // 지도에 마커 띄움
-        Log.d("ParkingCheck", "New Parking Space Marker: " + latitude + " " + longitude);
-        }
-
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
+        //시작카메라 위치지정 함수
+        CameraPosition cameraPosition = new CameraPosition(
+                new LatLng(37.551236, 127.074184),  // 위치 지정
+                15                           // 줌 레벨
+        );
+        
+        naverMap.setCameraPosition(cameraPosition);
         naverMap.setLocationSource(locationSource); // 현재 위치 표시
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setZoomControlEnabled(true);
         uiSettings.setLocationButtonEnabled(true);
         ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE);
         naverMap.addOnLocationChangeListener(location ->
-                Log.d("MapActivity", location.getLatitude() + ", " + location.getLongitude()));  // 현재 위치
+                Log.d("MapActivity", location.getLatitude() + ", " + location.getLongitude())
 
-//        마커 위치 찍어주기 테스트용임
-        showSpace(37.552158, 127.073335);
+        );  // 현재 위치
+
+
+    drone_latitude=37.552158;
+    drone_longitude=127.073335;
+
+
+
+//        마커 위치 찍어주기 테스트용임 (경도, 위도 ,넣고싶은 글자)
+        showstartSpace(drone_latitude, drone_longitude, "출발지점");
+
+        showfinishSpace(37.549687 ,127.075113, "도착지점");
+
+
+        make_path();
 
     }
+
+    //이동경로
+    private static void make_path() {
+
+        PathOverlay path = new PathOverlay();
+        path.setCoords(Arrays.asList(
+                new LatLng(37.552158, 127.073335),
+                new LatLng(37.549687 ,127.075113)
+        ));
+        path.setMap(naverMap);
+    }
+
+
+
+    private static void showstartSpace( double latitude, double longitude,String Inserttext) {
+
+        Marker SpaceMarker = new Marker();
+        OverlayImage image = OverlayImage.fromResource(R.drawable.ic_baseline_place_24_darkred);
+        SpaceMarker.setPosition(new LatLng(latitude, longitude));
+        SpaceMarker.setIcon(image);
+        SpaceMarker.setWidth(80);
+        SpaceMarker.setHeight(80);
+        SpaceMarker.setMap(naverMap);  // 지도에 마커 띄움
+        SpaceMarker.setCaptionText(Inserttext);
+        Log.d("ParkingCheck", "New Parking Space Marker: " + latitude + " " + longitude);
+    }
+
+    private static void showfinishSpace( double latitude, double longitude,String Inserttext) {
+
+        Marker SpaceMarker = new Marker();
+        OverlayImage image = OverlayImage.fromResource(R.drawable.ic_baseline_place_24_blue);
+        SpaceMarker.setPosition(new LatLng(latitude, longitude));
+        SpaceMarker.setIcon(image);
+        SpaceMarker.setWidth(80);
+        SpaceMarker.setHeight(80);
+        SpaceMarker.setMap(naverMap);  // 지도에 마커 띄움
+        SpaceMarker.setCaptionText(Inserttext);
+        Log.d("ParkingCheck", "New Parking Space Marker: " + latitude + " " + longitude);
+    }
+
 
 
     @Override
