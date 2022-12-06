@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
@@ -51,10 +52,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String login_id;
     String user_data;
 
+    Double start_latitude;
+    Double start_longitude;
+
     Double drone_latitude;
     Double drone_longitude;
+    Double fin_latitude;
+    Double fin_longitude;
 
-
+    Double last_meter;
+    int last_meter_int;
     // *********************************************************************************************
 
     @Override
@@ -73,6 +80,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // 사용자 gps 권한 설정
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
+
+
+
+
+
         Button go_main_map = findViewById(R.id.btn_map_end);
         go_main_map.setOnClickListener(new View.OnClickListener() {
                                        @Override
@@ -83,6 +95,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                            finish();
                                        }
                                    }
+
+
+
+
         );
 
 
@@ -111,31 +127,50 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         );  // 현재 위치
 
 
-    drone_latitude=37.552158;
-    drone_longitude=127.073335;
+    start_latitude=37.552158;
+    start_longitude=127.073335;
+
+    fin_latitude=37.548600;
+    fin_longitude=127.074700;
+
+    drone_latitude=(start_latitude+fin_latitude)/2;
+    drone_longitude=(start_longitude+fin_longitude)/2;
+
 
 
 
 //        마커 위치 찍어주기 테스트용임 (경도, 위도 ,넣고싶은 글자)
-        showstartSpace(drone_latitude, drone_longitude, "출발지점");
+        showstartSpace(start_latitude, start_longitude, "출발지점");
 
-        showfinishSpace(37.549687 ,127.075113, "도착지점");
+        showfinishSpace(fin_latitude ,fin_longitude, "도착지점");
+
+        last_meter=getDistance(drone_latitude, drone_longitude, fin_latitude, fin_longitude);
+
+        last_meter_int = (int)Math.round(last_meter);
+
+        showDroneMarker(drone_latitude,drone_longitude,last_meter+"m가 남았습니다.");
+
+        make_path(start_latitude,start_longitude,drone_latitude,drone_longitude,fin_latitude ,fin_longitude);
 
 
-        make_path();
+
+
 
     }
 
     //이동경로
-    private static void make_path() {
+    private static void make_path(double start_lat,double start_lon,double mid_lat,double mid_lon,double fin_lat,double fin_lon) {
 
         PathOverlay path = new PathOverlay();
+
         path.setCoords(Arrays.asList(
-                new LatLng(37.552158, 127.073335),
-                new LatLng(37.549687 ,127.075113)
+                new LatLng(start_lat, start_lon),
+                new LatLng(mid_lat, mid_lon),
+                new LatLng(fin_lat ,fin_lon)
         ));
         path.setMap(naverMap);
     }
+
 
 
 
@@ -145,12 +180,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         OverlayImage image = OverlayImage.fromResource(R.drawable.ic_baseline_place_24_darkred);
         SpaceMarker.setPosition(new LatLng(latitude, longitude));
         SpaceMarker.setIcon(image);
-        SpaceMarker.setWidth(80);
-        SpaceMarker.setHeight(80);
+        SpaceMarker.setWidth(150);
+        SpaceMarker.setHeight(150);
         SpaceMarker.setMap(naverMap);  // 지도에 마커 띄움
         SpaceMarker.setCaptionText(Inserttext);
-        Log.d("ParkingCheck", "New Parking Space Marker: " + latitude + " " + longitude);
+
     }
+
+    private static void showDroneMarker( double latitude, double longitude,String Inserttext) {
+
+        Marker DroneMarker = new Marker();
+        OverlayImage image = OverlayImage.fromResource(R.drawable.dronemarker);
+        DroneMarker.setPosition(new LatLng(latitude, longitude));
+        DroneMarker.setIcon(image);
+        DroneMarker.setWidth(150);
+        DroneMarker.setHeight(150);
+        DroneMarker.setForceShowIcon(true);
+        DroneMarker.setMap(naverMap);  // 지도에 마커 띄움
+
+        DroneMarker.setCaptionText(Inserttext);
+
+    }
+
+
+
+
 
     private static void showfinishSpace( double latitude, double longitude,String Inserttext) {
 
@@ -158,13 +212,37 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         OverlayImage image = OverlayImage.fromResource(R.drawable.ic_baseline_place_24_blue);
         SpaceMarker.setPosition(new LatLng(latitude, longitude));
         SpaceMarker.setIcon(image);
-        SpaceMarker.setWidth(80);
-        SpaceMarker.setHeight(80);
+        SpaceMarker.setWidth(150);
+        SpaceMarker.setHeight(150);
         SpaceMarker.setMap(naverMap);  // 지도에 마커 띄움
         SpaceMarker.setCaptionText(Inserttext);
-        Log.d("ParkingCheck", "New Parking Space Marker: " + latitude + " " + longitude);
+
     }
 
+
+    //거리 구하는 전용 함수
+    private static double deg2rad(double deg){
+        return (deg * Math.PI/180.0);
+    }
+
+    //radian(라디안)을 10진수로 변환
+    private static double rad2deg(double rad){
+        return (rad * 180 / Math.PI);
+    }
+
+
+
+    // 두 지점 사이 거리 구하는 함수 (거리 단위: m)
+    private static double getDistance(double latitude1, double longitude1, double latitude2, double longitude2) {
+
+        double theta = longitude1 - longitude2;
+        double dist = Math.sin(deg2rad(latitude1))* Math.sin(deg2rad(latitude2)) + Math.cos(deg2rad(latitude1))*Math.cos(deg2rad(latitude2))*Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60*1.1515*1609.344;
+        Log.d("MapActivity", "The distance between KickBoard and Bump: "+ dist);
+        return dist; //단위 meter
+    }
 
 
     @Override
