@@ -61,7 +61,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     Double fin_longitude;
 
     Double last_meter;
-    int last_meter_int;
+    Integer last_meter_int;
     // *********************************************************************************************
 
     @Override
@@ -148,7 +148,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         last_meter_int = (int)Math.round(last_meter);
 
-        showDroneMarker(drone_latitude,drone_longitude,last_meter+"m가 남았습니다.");
+
+
+
+        showDroneMarker(drone_latitude,drone_longitude,last_meter_int+"m가 남았습니다.");
 
         make_path(start_latitude,start_longitude,drone_latitude,drone_longitude,fin_latitude ,fin_longitude);
 
