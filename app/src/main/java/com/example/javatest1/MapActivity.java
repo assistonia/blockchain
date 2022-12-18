@@ -117,10 +117,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                            finish();
                                        }
                                    }
+        );
 
 
 
+        Button refresh = findViewById(R.id.btn_refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View view) {
+                                               Intent intent = new Intent(MapActivity.this, MapActivity.class);
+                                               startActivity(intent);
 
+                                               finish();
+                                           }
+                                       }
         );
 
 
@@ -153,6 +163,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Log.d("MapActivity", location.getLatitude() + ", " + location.getLongitude())
 
         );  // 현재 위치
+
 
 
     start_latitude=37.552158;

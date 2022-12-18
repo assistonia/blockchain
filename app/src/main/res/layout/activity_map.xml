@@ -68,10 +68,23 @@
 
     <Button
         android:id="@+id/btn_map_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="42dp"
         android:text="메인화면으로"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="119dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="40dp"
+        android:text="새로고침"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.996"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
