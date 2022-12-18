@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.database.annotations.NotNull;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.LocationTrackingMode;
@@ -28,7 +29,18 @@ import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.overlay.PathOverlay;
 import com.naver.maps.map.util.FusedLocationSource;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.Arrays;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -42,6 +54,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Manifest.permission.ACCESS_COARSE_LOCATION // 네트워크를 이용하여 단말기 위치 식별
     };
 
+    DroneGps gps = new DroneGps();
+    static String gpsInfo = "";
 
     // Map 상태
     boolean map_status = true;
@@ -59,6 +73,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     Double drone_longitude;
     Double fin_latitude;
     Double fin_longitude;
+
+
+    String[] get_gps;
+    Double get_latiude;
+    Double get_longitude;
+
 
     Double last_meter;
     Integer last_meter_int;
@@ -81,6 +101,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
 
+        //#########get drone gps
+        GpsDrone();
 
 
 
@@ -106,6 +128,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+
+
+
+
+
+
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
@@ -114,7 +142,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 new LatLng(37.551236, 127.074184),  // 위치 지정
                 15                           // 줌 레벨
         );
-        
+
         naverMap.setCameraPosition(cameraPosition);
         naverMap.setLocationSource(locationSource); // 현재 위치 표시
         UiSettings uiSettings = naverMap.getUiSettings();
@@ -133,10 +161,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     fin_latitude=37.548600;
     fin_longitude=127.074700;
 
-    drone_latitude=(start_latitude+fin_latitude)/2;
-    drone_longitude=(start_longitude+fin_longitude)/2;
-
-
+        Log.d("%%%%%%%%%%%%%%%%%%%%%%%%", "drone Gps Response: " + gps.DroneLatitude+gps.DroneLongitude);
 
 
 //        마커 위치 찍어주기 테스트용임 (경도, 위도 ,넣고싶은 글자)
@@ -144,16 +169,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         showfinishSpace(fin_latitude ,fin_longitude, "도착지점");
 
-        last_meter=getDistance(drone_latitude, drone_longitude, fin_latitude, fin_longitude);
+        //last_meter=getDistance(drone_latitude, drone_longitude, fin_latitude, fin_longitude);
 
+        //last_meter=getDistance(get_latiude, get_longitude, fin_latitude, fin_longitude);
+
+
+        last_meter=getDistance(gps.DroneLatitude, gps.DroneLongitude, fin_latitude, fin_longitude);
         last_meter_int = (int)Math.round(last_meter);
+        showDroneMarker(gps.DroneLatitude,gps.DroneLongitude,last_meter_int+"m가 남았습니다.");
 
-
-
-
-        showDroneMarker(drone_latitude,drone_longitude,last_meter_int+"m가 남았습니다.");
-
-        make_path(start_latitude,start_longitude,drone_latitude,drone_longitude,fin_latitude ,fin_longitude);
+        make_path(start_latitude,start_longitude,gps.DroneLatitude,gps.DroneLongitude,fin_latitude ,fin_longitude);
 
 
 
@@ -261,6 +286,54 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    public Double GpsDrone() {
+        // OkHttp 클라이언트 객체 생성
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+        // GET 요청 객체 생성
+        Request.Builder builder = new Request.Builder().url("http://203.250.148.120:20519/Mobius/delivery_system/dronegps/la").get();
+        builder.addHeader("Accept", "application/json").addHeader("X-M2M-RI", "12345").addHeader("X-M2M-Origin", "SOrigin");
+        Request request = builder.build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            }
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                try {
+                    if (response.isSuccessful()) {
+                        ResponseBody body = response.body();
+                        if (body != null) {
+                            // Mobius 데이터로부터 킥보드 gps 정보 추출
+                            JSONObject jsonObject = new JSONObject(response.body().string());
+                            JSONObject jsonObject1 = (JSONObject) jsonObject.get("m2m:cin");
+                            gpsInfo = jsonObject1.getString("con");
+                            Log.d("MapActivity", "drone Gps Response: " + gpsInfo);
+
+                            // 킥보드 GPS 데이터
+                            gps.DroneGpsInfo= gpsInfo.split(" ");
+                            gps.DroneLatitude = Double.parseDouble(gps.DroneGpsInfo[0]);
+                            gps.DroneLongitude = Double.parseDouble(gps.DroneGpsInfo[1]);
+                            Log.d("###############", "drone Gps Response: " + gps.DroneLatitude+gps.DroneLongitude);
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        return gps.DroneLatitude;
+    }
+
+
+}
+
+
+
 
 
 //    private void setMark(Marker marker, double lat, double lng, int resourceID)
@@ -277,7 +350,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //        marker.setMap(naverMap);
 //    }
 
-}
+
 
 //    @Override
 //    public void onBackPressed(){
