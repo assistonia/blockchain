@@ -175,7 +175,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     fin_latitude=37.548600;
     fin_longitude=127.074700;
 
-        Log.d("%%%%%%%%%%%%%%%%%%%%%%%%", "drone Gps Response: " + gps.DroneLatitude+gps.DroneLongitude);
 
 
 //        마커 위치 찍어주기 테스트용임 (경도, 위도 ,넣고싶은 글자)
