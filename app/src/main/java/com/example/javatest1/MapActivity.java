@@ -164,10 +164,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         );  // 현재 위치
 
+//37.516955 127.041695 강남구청
 
+        start_latitude=37.516955;
+        start_longitude=127.041695;
 
-    start_latitude=37.552158;
-    start_longitude=127.073335;
+//    start_latitude=37.552158;
+//    start_longitude=127.073335;
 
     fin_latitude=37.548600;
     fin_longitude=127.074700;
